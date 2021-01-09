@@ -48,6 +48,10 @@ class Board extends React.Component {
     if(winner != null) {
       status = winner + " is the winner!";
     }
+    else if(!this.props.move.squares.includes(null)) {
+      // There's no nulls available (everything is taken)
+      status = "It's a draw!";
+    }
     return (
       <div>
         <div className="status">{status}</div>
