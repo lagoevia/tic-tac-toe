@@ -146,7 +146,7 @@ class Game extends React.Component {
       }
       return (
         <li key={index} className="move-item" onClick={() => this.handleWarp(index)}>
-          {desc}
+          {this.state.move === index ? <b>{desc}</b> : desc}
         </li>
       );
     });
