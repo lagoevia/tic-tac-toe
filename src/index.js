@@ -121,6 +121,17 @@ class Game extends React.Component {
       }
     }
 
+    const moves = this.state.history.map((_, index) => {
+      const desc = index ?
+        'Go to move' :
+        'Go to start';
+      return (
+        <li class="move-item" onClick={() => this.handleWarp(index)}>
+          {desc}
+        </li>
+      );
+    });
+
     return (
       <div className="game">
         <div className="game-board">
@@ -129,9 +140,7 @@ class Game extends React.Component {
         <div className="game-info">
           <div class="status">{status}</div>
           <ol start="0">
-            {
-              this.state.history.map((_, index) => <li class="move-item" onClick={() => this.handleWarp(index)}>{index === 0 ? "Go to start" : "Go to move"}</li>)
-            }
+            {moves}
           </ol>
         </div>
       </div>
