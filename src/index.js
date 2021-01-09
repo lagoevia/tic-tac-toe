@@ -43,18 +43,8 @@ class Board extends React.Component {
   }
 
   render() {
-    let status = "It's " + (this.props.move.xIsNext ? 'X' : 'O') + "'s turn";
-    const winner = calculateWinner(this.props.move.squares);
-    if(winner != null) {
-      status = winner + " is the winner!";
-    }
-    else if(!this.props.move.squares.includes(null)) {
-      // There's no nulls available (everything is taken)
-      status = "It's a draw!";
-    }
     return (
       <div>
-        <div className="status">{status}</div>
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -118,13 +108,26 @@ class Game extends React.Component {
 
   // Below when rendering Board component, onClick needs to have this bound to it. Can do it manually on constructor or via arrow func.
   render() {
+    const current = this.state.history[this.state.move];
+    let status = "It's " + (current.xIsNext ? 'X' : 'O') + "'s turn";
+    if (!current.squares.includes(null)) {
+      // There's no nulls available (everything is taken)
+      status = "It's a draw!";
+    }
+    else {
+      const winner = calculateWinner(current.squares);
+      if (winner != null) {
+        status = winner + " is the winner!";
+      }
+    }
+
     return (
       <div className="game">
         <div className="game-board">
           <Board move={this.state.history[this.state.move]} onClick={this.handleClick} />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
+          <div class="status">{status}</div>
           <ol start="0">
             {
               this.state.history.map((_, index) => <li class="move-item" onClick={() => this.handleWarp(index)}>{index === 0 ? "Go to start" : "Go to move"}</li>)
