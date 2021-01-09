@@ -31,6 +31,20 @@ function calculateWinner(squares) {
   return null;
 }
 
+function getMoveSquarePosition(history, move) {
+  // compare curr with one before it (so cannot call this with move 0) and return the different element's col and row
+  if (move <= 0) {
+    console.assert("getMoveSquarePosition called with a move <= 0: " + move);
+  }
+  const curr = history[move].squares;
+  const prev = history[move - 1].squares;
+  for (let i = 0; i < 9; i++) {
+    if (curr[i] !== prev[i]) {
+      return [Math.floor(i / 3) + 1, (i % 3) + 1];
+    }
+  }
+}
+
 class Board extends React.Component {
   renderSquare(i) {
     return (
@@ -121,12 +135,17 @@ class Game extends React.Component {
       }
     }
 
-    const moves = this.state.history.map((_, index) => {
-      const desc = index ?
-        'Go to move' :
-        'Go to start';
+    const moves = this.state.history.map((step, index) => {
+      let desc = 'Go to ';
+      if (index) {
+        const pos = getMoveSquarePosition(this.state.history, index);
+        desc += 'move (' + pos[0] + ',' + pos[1] + ')';
+      }
+      else {
+        desc += 'start';
+      }
       return (
-        <li class="move-item" onClick={() => this.handleWarp(index)}>
+        <li key={index} className="move-item" onClick={() => this.handleWarp(index)}>
           {desc}
         </li>
       );
@@ -138,7 +157,7 @@ class Game extends React.Component {
           <Board move={this.state.history[this.state.move]} onClick={this.handleClick} />
         </div>
         <div className="game-info">
-          <div class="status">{status}</div>
+          <div className="status">{status}</div>
           <ol start="0">
             {moves}
           </ol>
