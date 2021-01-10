@@ -4,7 +4,7 @@ import './index.css';
 
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={props.winners.includes(props.id) ? "square winning-square" : "square"} onClick={props.onClick}>
             {props.value}
         </button>
     );
@@ -25,7 +25,7 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return [squares[a], lines[i]];
         }
     }
     return null;
@@ -53,6 +53,8 @@ class Board extends React.Component {
                 value={this.props.move.squares[i]}
                 xIsNext={this.props.move.xIsNext}
                 onClick={() => this.props.onClick(i)}
+                id={i}
+                winners={this.props.winners}
             />
         );
     }
@@ -66,7 +68,6 @@ class Board extends React.Component {
                 </div>
             );
         });
-        console.log("Rows: " + rows);
         return (
             <div>
                 {rows}
@@ -127,8 +128,12 @@ class Game extends React.Component {
     render() {
         const current = this.state.history[this.state.move];
         let status = "It's " + (current.xIsNext ? 'X' : 'O') + "'s turn";
-        const winner = calculateWinner(current.squares);
-        if (winner != null) {
+        const winnerInfo = calculateWinner(current.squares);
+        let winners = Array(3).fill(null);
+        if (winnerInfo != null) {
+            // Have access to the square id's to set those to winners?
+            const winner = winnerInfo[0];
+            winners = winnerInfo[1];
             status = winner + " is the winner!";
         }
         else if (!current.squares.includes(null)) {
@@ -161,7 +166,7 @@ class Game extends React.Component {
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board move={this.state.history[this.state.move]} onClick={this.handleClick} />
+                    <Board move={this.state.history[this.state.move]} onClick={this.handleClick} winners={winners}/>
                 </div>
                 <div className="game-info">
                     <div className="status">{status}</div>

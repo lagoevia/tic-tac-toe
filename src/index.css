@@ -21,14 +21,12 @@ body {
   
   .square {
     background: #fff;
-    border: 1px solid #999;
+    border: 3px solid #999;
     float: left;
     font-size: 62px;
     font-weight: bold;
     line-height: 34px;
     height: 72px;
-    margin-right: -1px;
-    margin-top: -1px;
     text-align: center;
     width: 72px;
   }
@@ -58,4 +56,7 @@ body {
     cursor:pointer;
     color: rgb(55, 133, 185);
   }
-  
+
+  .winning-square {
+    border: 3px solid red;
+  }
