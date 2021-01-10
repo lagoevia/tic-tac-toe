@@ -49,6 +49,7 @@ class Board extends React.Component {
   renderSquare(i) {
     return (
       <Square
+        key={i}
         value={this.props.move.squares[i]}
         xIsNext={this.props.move.xIsNext}
         onClick={() => this.props.onClick(i)}
@@ -57,23 +58,18 @@ class Board extends React.Component {
   }
 
   render() {
+    const rows = [...Array(3).keys()].map(i => {
+      const rowItems = [...Array(3).keys()].map(j => this.renderSquare((3*i) + j));
+      return (
+        <div key={i} className="board-row">
+          {rowItems}
+        </div>
+      );
+    });
+    console.log("Rows: " + rows);
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {rows}
       </div>
     );
   }
@@ -124,15 +120,13 @@ class Game extends React.Component {
   render() {
     const current = this.state.history[this.state.move];
     let status = "It's " + (current.xIsNext ? 'X' : 'O') + "'s turn";
-    if (!current.squares.includes(null)) {
+    const winner = calculateWinner(current.squares);
+    if (winner != null) {
+      status = winner + " is the winner!";
+    }
+    else if (!current.squares.includes(null)) {
       // There's no nulls available (everything is taken)
       status = "It's a draw!";
-    }
-    else {
-      const winner = calculateWinner(current.squares);
-      if (winner != null) {
-        status = winner + " is the winner!";
-      }
     }
 
     const moves = this.state.history.map((step, index) => {
