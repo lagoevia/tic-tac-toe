@@ -1,25 +1,25 @@
 body {
     font: 14px "Century Gothic", Futura, sans-serif;
     margin: 20px;
-  }
-  
-  ol, ul {
+}
+
+ol, ul {
     padding-left: 30px;
-  }
-  
-  .board-row:after {
+}
+
+.board-row:after {
     clear: both;
     content: "";
     display: table;
-  }
-  
-  .status {
+}
+
+.status {
     margin-bottom: 15px;
     text-align: center;
     font-size: 16px;
-  }
-  
-  .square {
+}
+
+.square {
     background: #fff;
     border: 3px solid #999;
     float: left;
@@ -29,34 +29,38 @@ body {
     height: 72px;
     text-align: center;
     width: 72px;
-  }
-  
-  .square:focus {
+}
+
+.square:focus {
     outline: none;
-  }
-  
-  .kbd-navigation .square:focus {
+}
+
+.kbd-navigation .square:focus {
     background: #ddd;
-  }
-  
-  .game {
+}
+
+.game {
     display: flex;
     flex-direction: row;
-  }
-  
-  .game-info {
+}
+
+.game-info {
     margin-left: 20px;
-  }
+}
 
-  .move-item {
-    color:rgb(117, 118, 119);
-  }
+.move-item {
+    color: rgb(117, 118, 119);
+}
 
-  .move-item:hover {
-    cursor:pointer;
+.move-item:hover {
+    cursor: pointer;
     color: rgb(55, 133, 185);
-  }
+}
 
-  .winning-square {
+.winning-square {
     border: 3px solid red;
-  }
+}
+
+#board-container {
+    border: 3px solid #999;
+}
